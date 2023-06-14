@@ -83,7 +83,7 @@ resource "google_cloud_run_service" "todamiro_backend" {
   template {
     spec {
       containers {
-        image = "europe-west1-docker.pkg.dev/hackathon-team-1-388910/todamiro-backend/main:b24cdcc1f3aacfc5c11d83fd4774b2ef8e74cb3e"
+        image = "europe-west1-docker.pkg.dev/hackathon-team-1-388910/todamiro-backend/main:baeb442f2041b1b14589152b5078a40faae234a0"
         ports {
           container_port = 3001
         }
