@@ -21,7 +21,7 @@ module "lb_http" {
       compression_mode        = null
 
       log_config = {
-        enable = false
+        enable      = false
         sample_rate = null
       }
 
@@ -32,8 +32,8 @@ module "lb_http" {
       ]
 
       iap_config = {
-        enable = false
-        oauth2_client_id = null
+        enable               = false
+        oauth2_client_id     = null
         oauth2_client_secret = null
       }
     }
@@ -75,15 +75,15 @@ resource "google_cloud_run_service" "todamiro_backend" {
   location = google_artifact_registry_repository.todamiro_backend.location
 
   metadata {
-      annotations = {
-        "run.googleapis.com/ingress" = "all"
-      }
+    annotations = {
+      "run.googleapis.com/ingress" = "all"
+    }
   }
 
   template {
     spec {
       containers {
-        image = "europe-west1-docker.pkg.dev/hackathon-team-1-388910/todamiro-backend/main:efe993760d35630b61f9ce25e6986e63e3db82ce"
+        image = "europe-west1-docker.pkg.dev/hackathon-team-1-388910/todamiro-backend/main:b24cdcc1f3aacfc5c11d83fd4774b2ef8e74cb3e"
         ports {
           container_port = 3001
         }
@@ -94,11 +94,8 @@ resource "google_cloud_run_service" "todamiro_backend" {
           }
         }
         startup_probe {
-          failure_threshold = 5
+          failure_threshold     = 5
           initial_delay_seconds = 10
-#          tcp_socket {
-#            port = 3001
-#          }
           http_get {
             path = "/"
             port = 3001
@@ -110,6 +107,9 @@ resource "google_cloud_run_service" "todamiro_backend" {
     }
 
     metadata {
+      labels = {
+        "run.googleapis.com/startupProbeType" = "Custom"
+      }
       annotations = {
         "autoscaling.knative.dev/maxScale"        = "20"
         "run.googleapis.com/vpc-access-connector" = tolist(module.serverless_connector.connector_ids)[0]
