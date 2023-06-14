@@ -19,10 +19,10 @@ subnets = [
     subnet_private_access = "true"
   },
   {
-    subnet_name           = "template-subnet"
-    subnet_cidr           = "10.0.201.0/24"
-    subnet_region         = "europe-west4"
-    subnet_private_access = "false"
+    subnet_name           = "serverless-subnet"
+    subnet_cidr           = "10.0.201.0/28"
+    subnet_region         = "europe-west1"
+    subnet_private_access = "true"
   },
 
 ]

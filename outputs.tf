@@ -5,7 +5,12 @@ output "packer_sa_key" {
   value     = module.sa["packer_sa"].decoded_private_key
 }
 
-#output "gh_backend_sa_key" {
-#  sensitive = true
-#  value     = module.sa["gh_backend_sa"].decoded_private_key
-#}
+output "gh_backend_sa_key" {
+  sensitive = true
+  value     = module.sa["gh_backend_sa"].decoded_private_key
+}
+
+output "gh_frontend_sa_key" {
+  sensitive = true
+  value     = module.sa["gh_frontend_sa"].decoded_private_key
+}

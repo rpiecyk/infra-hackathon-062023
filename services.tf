@@ -9,7 +9,8 @@ locals {
     "compute.googleapis.com",
     "replicapool.googleapis.com",
     "dns.googleapis.com",
-    "artifactregistry.googleapis.com"
+    "artifactregistry.googleapis.com",
+    "vpcaccess.googleapis.com"
   ]
 }
 

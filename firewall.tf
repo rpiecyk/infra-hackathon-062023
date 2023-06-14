@@ -50,7 +50,7 @@ module "firewall" {
       name                    = "allow-internal-traffic"
       description             = "allow in-VPC traffic"
       direction               = "INGRESS"
-      source_ranges           = ["10.0.100.0/23"]
+      source_ranges           = ["10.0.100.0/23", "10.0.200.0/23"]
       source_tags             = null
       source_service_accounts = null
       destination_ranges      = null

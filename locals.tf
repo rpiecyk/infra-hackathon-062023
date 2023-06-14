@@ -1,9 +1,11 @@
 locals {
+  # For project-wide uniqual names
   suffix = substr(sha256(var.hackathon_project), 0, 5)
 
   # VM scratch_disks
   scratch_disks = []
 
+  # All SA used externally
   service_accounts = {
     packer_sa = {
       account_id  = "sa-packer-${local.suffix}"
@@ -21,6 +23,16 @@ locals {
         "roles/iam.serviceAccountTokenCreator",
         "roles/artifactregistry.writer"
       ]
+    },
+    gh_frontend_sa = {
+      account_id  = "sa-gh-frontend-${local.suffix}"
+      description = "SA for publishing frontend artifacts to GCS"
+      roles = [
+        "roles/storage.admin"
+      ]
     }
   }
+
+  # Needed by Serverless VPC Access Connector
+  serverless_subnet_name = split("/", module.subnets.subnets["europe-west1/serverless-subnet"])[10]
 }
