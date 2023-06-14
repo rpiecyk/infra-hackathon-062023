@@ -1,0 +1,46 @@
+name: Build and Publish ZooKeeper VM Image
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'packer/configs/zoo.cfg'
+      - 'packer/configs/zookeeper.service'
+      - 'packer/scripts/bootstrap-zookeeper.sh'
+      - 'packer/zookeeper-*'
+
+env:
+  PRODUCT_VERSION: "1.8.6"
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: ./packer
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup packer
+      uses: hashicorp/setup-packer@main
+      id: setup
+      with:
+        version: ${{ env.PRODUCT_VERSION }}
+
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v0.4.0
+      with:
+        credentials_json: '${{ secrets.PKR_GOOGLE_APPLICATION_CREDS }}'
+
+    - name: Run packer init
+      id: init
+      run: "packer init ."
+
+    - name: Run packer validate
+      id: validate
+      run: "packer validate ."
+
+    - name: Run packer build
+      run: "packer build -var-file variables.pkrvars.hcl -only zookeeper-hackathon-base-image.googlecompute.zookeeper-image ."
